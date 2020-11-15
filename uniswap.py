@@ -1,38 +1,38 @@
 import math
-idx_0_mkt_price = 100 # eth
-idx_1_mkt_price = 1 # dai
+class Pool:
+    def __init__(self,names,seed_pool,mp1,mp2):
+        self.names = names
+        self.pool = seed_pool
+        self.mp1 = mp1
+        self.mp2 = mp2
 
-def pool_info(pool):
-    print("pair1",pool[0])
-    print("pair2",pool[1])
+    def market_value(self):
+        pool_mkt_value = (self.pool[0] * self.mp1) + (self.pool[1] * self.mp2)
+        print("Pool market value: $",pool_mkt_value)
+        return pool_mkt_value
 
+    def constant_product(self):
+        return self.pool[0] * self.pool[1]
 
-def pool_market_value(pool):
-    pool_mkt_value = (pool[0] * idx_0_mkt_price) + (pool[1] * idx_1_mkt_price)
-    print("Pool market value",pool_mkt_value)
-    return pool_mkt_value
+    def add_liquidity(self,q1,q2):
+        self.pool [0]= self.pool[0] + q1
+        self.pool [1]= self.pool[1] + q2
 
-def pool_constant_product(pool):
-    constant_product = pool[0] * pool[1]
-    return constant_product
+    def liquidity(self):
+        cp = self.constant_product()
+        idx_0_liquidity = math.sqrt(cp/self.mp1)
+        idx_1_liquidity = math.sqrt(cp*self.mp2)
+        return idx_0_liquidity,idx_1_liquidity
 
-def add_liquidity(qty1,qty2):
-    print()
-    return [pool[0] + qty1, pool[1] + qty2]
+    def update_mkt_price(self,mp1,mp2):
+        self.mp1 = mp1
+        self.mp2 = mp2
 
-def print_liquidity(pool):
-    idx_0_liquidity = math.sqrt(pool_constant_product(pool)/idx_0_mkt_price)
-    idx_1_liquidity = math.sqrt(pool_constant_product(pool)*idx_0_mkt_price)
-    return idx_0_liquidity,idx_1_liquidity
-
-#ethdai
-pool = [99,9900]
-
-pool_info(pool)
-pool_market_value(pool)
-print(pool_constant_product(pool))
-pool = add_liquidity(1,100)
-pool_info(pool)
-pool_market_value(pool)
-pool_constant_product(pool)
-print(print_liquidity(pool))
+    def info(self):
+        print()
+        print(self.names[0],self.pool[0],':',self.names[1],self.pool[1],'Market value:',self.market_value(),'Constant product:',self.constant_product())
+        print('Liquidity:')
+        l1, l2 = self.liquidity()
+        print('\t',self.names[0],':',l1)
+        print('\t',self.names[1],':',l2)
+        print()
