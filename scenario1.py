@@ -9,3 +9,10 @@ ethdai.add_liquidity(1,100,100,1)
 ethdai.info()
 ethdai.update_mkt_price(120,1)
 ethdai.info()
+
+
+#todo
+
+# calc price_ratio
+# calc divergence
+# graph
